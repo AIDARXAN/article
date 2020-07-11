@@ -1,0 +1,44 @@
+{% extends 'news/base.html' %}
+
+
+{% block title %}
+    {% if category %}
+        {{ category.title }}
+    {% else %}
+        Categories
+    {% endif %}
+
+{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+        <div class="justify-content-center">
+            {% if category %}
+                <h2>
+                    Articles related to {{ category.title }} 
+                </h2>
+            {% else %}
+                <h2>Articles</h2>
+            {% endif %}
+            <form class="form-inline">
+
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.title }}</h5>
+                        <p class="card-text">{{ article.description|truncatewords_html:30 }}</p>
+                        <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read more</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    {% endfor %}
+    {% for category in categories %}
+        <div>
+            <h2>Categories</h2>
+            <h2><a href=" {{ category.get_absolute_url }}">{{ category.title }}</a> </h2>
+        </div>
+    {% endfor %}
+
+{% endblock %}
