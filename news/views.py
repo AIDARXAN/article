@@ -1,10 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
+from rest_framework import viewsets
 
+from news.serializers import CategoryListSerializer, ArticleListSerializer
 from .models import Category, Article
 from .forms import ArticleForm
 
+
+class CategoryListViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all().order_by('id')
+    serializer_class = CategoryListSerializer
+
+
+class ArticleFieldViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all().order_by('id')
+    serializer_class = ArticleListSerializer
 
 
 @login_required
@@ -33,33 +44,4 @@ def article_detail(request, id, slug):
                   {'article': article})
 
 
-@login_required
-def manage_articles(request):
-    user_id = request.user.id
-    articles = Article.object.filter(user_id=user_id)
-    return render(request,
-                    'news/article/manage.html',
-                    {'articles':articles})
-
-
-@login_required
-def edit_article(request, id, slug):
-    if request.method == 'POST':
-        article_form = ArticleForm(
-                                instance=get_object_or_404(Article, 
-                                                        id=id, slug=slug),
-                                 data=request.POST)
-        if article_form.is_valid():
-            article_form.save()
-
-            messages.success(request, 'Profile updated '\
-                                        'successfully')
-        else:
-            messages.error(request, 'Error updating your profile')
-    else:
-        user_form = ArticleForm(instance=request.user)
-
-    return render(request,
-                  'account/edit.html',
-                  {'user_form': user_form})
 

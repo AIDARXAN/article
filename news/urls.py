@@ -7,7 +7,6 @@ urlpatterns = [
           name='article_list_by_category'),
      path('<int:id>/<slug:slug>/', views.article_detail,
           name='article_detail'),
-     path('manage_articles', views.manage_articles, name='manage_articles'),
-     path('edit/<int:id>/<slug:slug>/', views.edit_article, name='edit_article'),
+
 
 ]

@@ -11,8 +11,9 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row mx-md-n5">
     {% for article in articles %}
-        <div class="justify-content-center">
+        <div class="col px-md-5 justify-content-center">
             {% if category %}
                 <h2>
                     Articles related to {{ category.title }} 
@@ -35,10 +36,10 @@
         </div>
     {% endfor %}
     {% for category in categories %}
-        <div>
+        <div class="col px-md-5">
             <h2>Categories</h2>
             <h2><a href=" {{ category.get_absolute_url }}">{{ category.title }}</a> </h2>
         </div>
     {% endfor %}
-
+    </div>
 {% endblock %}
